@@ -31,36 +31,48 @@
 			 //função para excluir um contato - fim
 			 
 			 //função para pegar um contato
-    function pegarContatos(){
-		
-        $contatos = file_get_contents("contatos.json", true); //Ele pega as arquivos do contatos e guarda o resultado        
+    			
+			function pegarContatos(){
+			
+        		$contatos = file_get_contents("contatos.json", true); //Ele pega as arquivos do contatos e guarda o resultado        
 				$contatos = json_decode($contatos, true); // Ele pega os valores guardados e converte pra um array
         
 				return $contatos; //retorna o valor para a variavel contatos 
     }   
 		
 		//função para pegar um contato - fim
-    
 		
-		//função para editar um contato    
+   		  //	função para buscar um contato        
+     
+     	function buscarContato($contatoBuscado){
+
+            $contatos = file_get_contents("contatos.json", true); //guardando os resultados            
+	    $contatos = json_decode($contatos, true); // convertendo para um array
+
+            if ($contatoBuscado != null) {
+                $contatosEncontrados = [];
 		
-		function editarContato($valorBuscado){
-        $contatos = pegarDadosJson(); //pega os dados convertidos
-        
-				foreach ($contatos as $contato) {           
-				if ($contato['id'] == $valorBuscado) {                
-				
-				return $contato; //retorna o valor para a variavel contatos             
-				}       
-				
-			}
-        return null;
-    }
-     //função para editar um contato - fim 
-		 
-		 
-		  //função para editar um contato    
+                foreach ($contatos as $contato) {                    
+		if ($contato['Nome'] == $contatoBuscado) {
+                        return $contatosEncontrados; //retorna o valor para a variavel
+			}               
 			
-			function salvarContatoEditado($id){       
-			
-			$contatosAuxiliar = pegarDadosJson();
+	}
+             //função para buscar um contato - fim            
+	     
+	     
+	     
+	     
+	      //GERENCIAMENTO DE ROTAS    
+	      if ($_GET['acao'] == 'cadastrar'){
+	      cadastrar($_POST['Nome'], $_POST['Email'], $_POST['Telefone']);    
+	      
+	      }elseif ($_GET['acao'] == 'excluir'){         
+	      excluirContato($_GET['id']);     
+	      
+	      } elseif ($_GET['acao'] == 'editar'){         
+	      salvarContatoEditado($_GET['id']);     
+	      
+	      }elseif ($_GET['acao'] == 'buscar'){         
+	      buscarContato($_GET['Nome']);     }
+		
